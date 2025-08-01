@@ -1,0 +1,41 @@
+import { Helmet } from "react-helmet";
+import Header from "@/components/header";
+import Hero from "@/components/hero";
+import HowItWorks from "@/components/how-it-works";
+import Categories from "@/components/categories";
+import SuccessStories from "@/components/success-stories";
+import Resources from "@/components/resources";
+import Booking from "@/components/booking";
+import Newsletter from "@/components/newsletter";
+import Contact from "@/components/contact";
+import Footer from "@/components/footer";
+
+export default function Home() {
+  return (
+    <>
+      <Helmet>
+        <title>HobbyConnect - Book Expert Sessions for Your Passion Projects</title>
+        <meta name="description" content="Connect with hobby experts and book personalized sessions online. Learn photography, woodworking, gardening, crafts and more from passionate instructors." />
+        <meta name="keywords" content="hobby lessons, expert sessions, photography classes, woodworking tutorials, gardening advice, craft workshops, online booking" />
+        
+        {/* Open Graph for social sharing */}
+        <meta property="og:title" content="HobbyConnect - Expert Hobby Sessions" />
+        <meta property="og:description" content="Book personalized sessions with hobby experts. No phone calls or emails needed." />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      
+      <div className="bg-hobby-off-white text-hobby-dark-slate">
+        <Header />
+        <Hero />
+        <HowItWorks />
+        <Categories />
+        <SuccessStories />
+        <Resources />
+        <Booking />
+        <Newsletter />
+        <Contact />
+        <Footer />
+      </div>
+    </>
+  );
+}
