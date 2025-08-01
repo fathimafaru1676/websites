@@ -1,0 +1,70 @@
+export default function Resources() {
+  const resources = [
+    {
+      title: "Beginner Guides",
+      description: "Comprehensive starter guides for every hobby category",
+      count: "200+ Resources",
+      icon: "fas fa-book",
+      bgColor: "bg-hobby-primary bg-opacity-10",
+      iconColor: "text-hobby-primary"
+    },
+    {
+      title: "Video Tutorials",
+      description: "Step-by-step video instructions from expert instructors",
+      count: "500+ Videos",
+      icon: "fas fa-video",
+      bgColor: "bg-hobby-secondary bg-opacity-10",
+      iconColor: "text-hobby-secondary"
+    },
+    {
+      title: "Tool Guides",
+      description: "Equipment recommendations and buying guides",
+      count: "150+ Guides",
+      icon: "fas fa-tools",
+      bgColor: "bg-hobby-accent bg-opacity-10",
+      iconColor: "text-hobby-accent"
+    },
+    {
+      title: "Community Forum",
+      description: "Connect with fellow hobbyists and share experiences",
+      count: "5k+ Members",
+      icon: "fas fa-users",
+      bgColor: "bg-purple-100",
+      iconColor: "text-purple-600"
+    }
+  ];
+
+  return (
+    <section id="resources" className="py-20 bg-hobby-light-gray">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-hobby-dark-slate mb-4">
+            Educational Resource Library
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Access our comprehensive collection of guides, tutorials, and educational materials to supplement your learning journey.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {resources.map((resource, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow duration-200">
+              <div className={`${resource.bgColor} rounded-lg p-4 mb-4`}>
+                <i className={`${resource.icon} text-2xl ${resource.iconColor}`}></i>
+              </div>
+              <h3 className="font-semibold text-lg mb-2">{resource.title}</h3>
+              <p className="text-gray-600 text-sm mb-4">{resource.description}</p>
+              <div className="text-sm text-gray-500 mb-3">{resource.count}</div>
+              <button className="text-hobby-primary hover:text-blue-700 font-medium text-sm">
+                {resource.title === "Community Forum" ? "Join Community" : 
+                 resource.title === "Video Tutorials" ? "Watch Videos" :
+                 resource.title === "Tool Guides" ? "View Tools" : "Browse Guides"} 
+                <i className="fas fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
