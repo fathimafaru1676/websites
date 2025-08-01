@@ -1,0 +1,89 @@
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+
+export default function Newsletter() {
+  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const subscriptionMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const response = await apiRequest("POST", "/api/newsletter", { email });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success!",
+        description: "You've been subscribed to our newsletter.",
+      });
+      setEmail("");
+      queryClient.invalidateQueries({ queryKey: ['/api/newsletter'] });
+    },
+    onError: (error: any) => {
+      const message = error.message?.includes("already subscribed") 
+        ? "This email is already subscribed to our newsletter."
+        : "Failed to subscribe. Please try again.";
+      toast({
+        title: "Error",
+        description: message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      subscriptionMutation.mutate(email);
+    }
+  };
+
+  return (
+    <section className="py-20 bg-gradient-to-r from-hobby-primary to-blue-800 text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          Stay Updated with HobbyConnect
+        </h2>
+        <p className="text-xl mb-8 opacity-90">
+          Get the latest hobby tips, expert insights, and exclusive session discounts delivered to your inbox.
+        </p>
+        
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto">
+          <input 
+            type="email" 
+            placeholder="Enter your email address" 
+            className="flex-1 px-6 py-4 rounded-lg text-gray-800 focus:ring-2 focus:ring-hobby-secondary focus:outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={subscriptionMutation.isPending}
+          />
+          <button 
+            type="submit"
+            className="bg-hobby-secondary hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-200 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={subscriptionMutation.isPending}
+          >
+            {subscriptionMutation.isPending ? "Subscribing..." : "Subscribe Now"}
+          </button>
+        </form>
+
+        <div className="flex justify-center items-center space-x-6 mt-8">
+          <div className="text-center">
+            <div className="text-2xl font-bold">15k+</div>
+            <div className="text-sm opacity-80">Subscribers</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold">Weekly</div>
+            <div className="text-sm opacity-80">Tips & Insights</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold">Exclusive</div>
+            <div className="text-sm opacity-80">Discounts</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
